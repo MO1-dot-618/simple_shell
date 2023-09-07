@@ -4,20 +4,29 @@
 #include <unistd.h>
 #include <sys/wait.h>
 #include <sys/types.h>
+
+#define DELIMITERS " \n\t\r"
+#define ARGS 10
+#define ARGS_SIZE 10
+
 char **token(char *str)
 {
 	char **token;
-	int i = 0;
+	int i = 1, j;
 	
-	token = (char**)malloc(20 * sizeof(char*));
-	/* get the first token */
-	token[0] = strtok(str, " ");
+	token = (char**)malloc(ARGS * sizeof(char*));
+	for (j = 0; j < ARGS; j++)
+		token[j] = malloc(ARGS_SIZE);
+	/* we get the first token */
+	token[0] = strtok(str, DELIMITERS);
 
-	/* walk through other tokens */
-	while( token != NULL )
+	/* then the other tokens */
+	while( i < ARGS)
 	{
+		token[i] = strtok(NULL, DELIMITERS);
+		if (token[i] == NULL)
+			break;
 		i++;
-		token[i] = strtok(NULL, " ");
 	}
 	return (token);
 }
@@ -25,8 +34,9 @@ char **token(char *str)
 int main()
 {
 	char *str;
-	size_t size = 20;
+	size_t size = ARGS * ARGS_SIZE;
 	char **command;
+	int j;
 
 	printf("#shell_alx$ ");
 	/*We print this at every command line*/
@@ -35,6 +45,7 @@ int main()
 	/*We get a string containing the command*/
 
 	command = token(str);
+	/*We divide the string into separate arguments/tokens */
 	if (strcmp(command[0], "pid") == 0)
 			execve("./pid", command, NULL);
 	else
@@ -42,6 +53,8 @@ int main()
 
 	free(str);
 	/*insert code to free command[i] for all i*/
+	for (j = 0; j < ARGS_SIZE; j++)
+		free(command[j]);
 	free(command);
 	return (0);
 }
