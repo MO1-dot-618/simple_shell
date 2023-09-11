@@ -4,54 +4,63 @@
 #include <unistd.h>
 #include <sys/wait.h>
 #include <sys/types.h>
+#include <sys/stat.h>
 
 #define DELIMITERS " \n\t"
 #define ARGS 10
-#define ARGS_SIZE 10
+#define ARGS_SIZE 50
 
-int exc(char *str, char **c);
+char* find_exe(char *str);
 char **token(char *str, char *d);
 
 extern char **environ;
 
-int exc(char *str, char **c)
+char* find_exe(char *str)
 {
-	char *line, *command;
+	char *line, *command, *file_path = NULL;
 	char **paths;
 	int i = 0;
+	struct stat buffer;
 
-	line = getenv("PATH");
-	if (line != NULL)
+	file_path = malloc (ARGS_SIZE);
+	/*check if file exists and is executable*/
+	if (stat(str, &buffer) == 0 && buffer.st_mode & S_IXUSR)
 	{
+		printf("Executable exists! (PATH not checked)\n");
+		strcpy(file_path, str);
+	}
+	else
+	{
+		line = getenv("PATH");
+		if (line == NULL)
+			return (NULL);
 		paths = token(line, ":");
-		while (paths[0] != NULL)
+		command = malloc (ARGS_SIZE);
+		while (paths != NULL && paths[i] != NULL)
 		{
-			printf("%s\n", paths[i]);
-			i++;
-		}
-		i = 0;
-		line = NULL;
-		while (paths != NULL)
-		{
-			printf("some path: %s\n", paths[i]);
-			command = strcat(paths[i], "/");
+			/*copy string before using strcat to avoid unexepcted modification of other pointers of paths*/
+			strcpy(command, paths[i]);
+			command = strcat(command, "/");
 			command = strcat(command, str);
-			if (execve(command, c, NULL) != -1)
+			if (stat(command, &buffer) == 0 && buffer.st_mode & S_IXUSR)
 			{
-				printf("right path: %s\n", paths[i]);
-				i = 0;
-				while (paths[0] != NULL)
-				{
-					free(paths[i]);
-					i++;
-				}
-				free(paths);
-				return (1);
+				printf("File exists in PATH!\n");
+				strcpy(file_path, command);
+				break;
 			}
 			i++;
 		}
+		/*i = 0;
+		while (paths[i] != NULL)
+		{
+			printf("path to be free: %s\n", paths[i]);
+			free(paths[i]);
+			i++;
+		}
+		free(paths);
+		free(command);*/
 	}
-	return (0);
+	return (file_path);
 }
 
 char **token(char *str, char *d)
@@ -78,10 +87,10 @@ char **token(char *str, char *d)
 
 int main()
 {
-	char *str;
+	char *str, *new_com;
 	size_t size = ARGS * ARGS_SIZE;
 	char **command;
-	int j, ex;
+	int j;
 	
 	printf("#shell_alx$ ");
 	/*We print this at every command line*/
@@ -90,16 +99,16 @@ int main()
 	/*We get a string containing the command*/
 
 	command = token(str, DELIMITERS);
-	/*We divide the string into separate arguments/tokens */
-	if (execve(command[0], command, NULL) != -1)
-		return (0);
-	if (exc(command[0], command) == 0)
+	new_com = find_exe(command[0]);
+
+	if (execve(new_com, command, environ) == -1)
+	{
 		printf("Command not found\n");
-	free(str);
-	
-	/*insert code to free command[i] for all i*/
-	for (j = 0; j < ARGS_SIZE; j++)
-		free(command[j]);
-	free(command);
+		free(str);
+		free(new_com);
+		for (j = 0; j < ARGS_SIZE; j++)
+			free(command[j]);
+		free(command);
+	}
 	return (0);
 }
