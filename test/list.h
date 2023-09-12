@@ -9,7 +9,9 @@
 #include <string.h>
 #include <sys/stat.h>
 #include <errno.h>
+extern char **environ;
 
+int exec(char **cmd, char **argv);
 char **tokensh(char *line);
 char *get_l (void);
 
