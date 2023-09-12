@@ -17,6 +17,7 @@
 char *find_exe(char *str);
 char **tokensh(char *line, char *delim);
 char *get_l(void);
+ char **token(char *str, char *d);
 
 extern char **environ;
 #endif

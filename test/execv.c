@@ -5,10 +5,11 @@
 
 int main (void)
 {
-    pid_t pid = getpid();
-    char *argv[] = {"/bin/ls", "-l", NULL};
-    fork();
+    pid_t pid;
+    char *argv[] = {"/bin/ls", NULL};
 
+    pid = fork();
+    /*  pid = getpid();*/
     if (pid == 0)
     {
         execve(argv[0], argv, NULL);
@@ -16,6 +17,7 @@ int main (void)
     else
     {
         wait(NULL);
-        printf("I am alive! %d", pid);
+        printf("\n after execve \n");
     }
+    return (0);
 }

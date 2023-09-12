@@ -96,10 +96,13 @@ char *find_exe(char *str)
 		line = getenv("PATH");
 		if (line == NULL)
 			return (NULL);
-		paths = tokensh(line, ":");
+		paths = token(line, ":");
+		printf("PATH tokened\n");
 		command = malloc(ARGS_SIZE);
+		
 		while (paths != NULL && paths[i] != NULL)
 		{
+			printf("searching path : %s\n",paths[i]);
 			/*copy string before using strcat to avoid unexepcted behavior*/
 			strcpy(command, paths[i]);
 			command = strcat(command, "/");
@@ -114,4 +117,26 @@ char *find_exe(char *str)
 		}
 	}
 	return (file_path);
+}
+
+char **token(char *str, char *d)
+{
+	char **token;
+	int i = 1, j;
+
+	token = (char**)malloc(ARGS * sizeof(char*));
+	for (j = 0; j < ARGS; j++)
+		token[j] = malloc(ARGS_SIZE);
+	/* we get the first token */
+	token[0] = strtok(str, d);
+
+	/* then the other tokens */
+	while( i < ARGS)
+	{
+		token[i] = strtok(NULL, d);
+		if (token[i] == NULL)
+			break;
+		i++;
+	}
+	return (token);
 }
