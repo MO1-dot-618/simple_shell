@@ -1,61 +1,33 @@
-#include <stdlib.h>
-#include <stdio.h>
-#include <string.h>
-#include <unistd.h>
-#include <sys/wait.h>
-#include <sys/types.h>
+#include "list.h"
 
-#define DELIMITERS " \n\t\r"
-#define ARGS 10
-#define ARGS_SIZE 10
+/**
+  * main - command line interpreter
+  * Return: 0 (success)
+  */
 
-char **token(char *str)
+int main(void)
 {
-	char **token;
-	int i = 1, j;
-	
-	token = (char**)malloc(ARGS * sizeof(char*));
-	for (j = 0; j < ARGS; j++)
-		token[j] = malloc(ARGS_SIZE);
-	/* we get the first token */
-	token[0] = strtok(str, DELIMITERS);
+	char *command, *new_com;
+	char **args;
 
-	/* then the other tokens */
-	while( i < ARGS)
+	while (1)
 	{
-		token[i] = strtok(NULL, DELIMITERS);
-		if (token[i] == NULL)
-			break;
-		i++;
+		command = get_l();
+		args = tokensh(command, DELIMITERS);
+		new_com = find_exe(args[0]);
+
+		if (execve(new_com, args, environ) == -1)
+		{
+			printf("Command not found\n");
+			free(command);
+			free(new_com);
+			while (*args)
+			{
+				free(*args);
+				args++;
+			}
+			free(args);
+		}
 	}
-	return (token);
-}
-
-int main()
-{
-	char *str;
-	size_t size = ARGS * ARGS_SIZE;
-	char **command;
-	int j;
-	extern char **environ;
-
-	printf("#shell_alx$ ");
-	/*We print this at every command line*/
-	str = malloc(size);
-	getline (&str, &size, stdin);
-	/*We get a string containing the command*/
-
-	command = token(str);
-	/*We divide the string into separate arguments/tokens */
-	if (strcmp(command[0], "pid") == 0)
-			execve("/bin/ls", command, environ);
-	else
-			printf("Command does not exist\n");
-
-	free(str);
-	/*insert code to free command[i] for all i*/
-	for (j = 0; j < ARGS_SIZE; j++)
-		free(command[j]);
-	free(command);
 	return (0);
 }
