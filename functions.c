@@ -96,7 +96,7 @@ char *find_exe(char *str)
 		line = getenv("PATH");
 		if (line == NULL)
 			return (NULL);
-		paths = token(line, ":");
+		paths = tokensh(line, ":");
 		command = malloc(ARGS_SIZE);
 		while (paths != NULL && paths[i] != NULL)
 		{
