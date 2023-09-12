@@ -9,10 +9,15 @@
 #include <string.h>
 #include <sys/stat.h>
 #include <errno.h>
+
+#define DELIMITERS " \n\t"
+#define ARGS 10
+#define ARGS_SIZE 50
+
+char *find_exe(char *str);
+char **tokensh(char *line, char *delim);
+char *get_l(void);
+ char **token(char *str, char *d);
+
 extern char **environ;
-
-int exec(char **cmd, char **argv);
-char **tokensh(char *line);
-char *get_l (void);
-
 #endif
