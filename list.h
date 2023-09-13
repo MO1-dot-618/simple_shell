@@ -18,5 +18,11 @@ char *find_exe(char *str);
 char **tokensh(char *line, char *delim);
 char *get_l(void);
 
+char *_strncpy(char *dest, char *src, int n);
+char *_strcat(char *dest, char *src);
+int _strlen(char *s);
+int _strcmp(char *s1, char *s2);
+char *_strdup(char *str);
+
 extern char **environ;
 #endif
