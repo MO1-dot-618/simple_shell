@@ -10,7 +10,7 @@ int exec(char **cmd, char **argv, int index)
     if (f_cmd == NULL)
     {
         c_perror(argv[0], index, cmd[0]);
-        free(cmd);
+        free(cmd), cmd = NULL;
         return(127);
     }
 

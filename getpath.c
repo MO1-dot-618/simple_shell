@@ -64,7 +64,7 @@ char *getenviron(char *var)
        {
         value = strtok(NULL, "\n");
         value_cpy = _strdup(value);
-        free(temp);
+        free(temp), temp = NULL;
         return(value_cpy);
        }
        free(temp); temp = NULL;
