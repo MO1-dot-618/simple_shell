@@ -14,11 +14,16 @@
 #define ARGS 10
 #define ARGS_SIZE 50
 
-char *find_exe(char *str);
-char **tokensh(char *line, char *delim);
+char *getenviron(char *var);
+char *getsirat(char *command);
+int exec(char **cmd, char **argv, int index);
+char **tokensh(char *line);
 char *get_l(void);
+void c_perror(char *usrnm, int index, char *cmd);
 
-char *_strncpy(char *dest, char *src, int n);
+char *_strcpy(char *dest, char *src);
+char *int_to_a(int num);
+void rev_string(char *str, int len);
 char *_strcat(char *dest, char *src);
 int _strlen(char *s);
 int _strcmp(char *s1, char *s2);

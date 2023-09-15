@@ -1,33 +1,26 @@
 #include "list.h"
 
-/**
-  * main - command line interpreter
-  * Return: 0 (success)
-  */
-
-int main(void)
+int main (int argc, char **argv)
 {
-	char *command, *new_com;
-	char **args;
+	char *line = NULL;
+	char **cmd = NULL;
+	int status = 0;
+	int index = 0;
+	(void) argc;
 
 	while (1)
 	{
-		command = get_l();
-		args = tokensh(command, DELIMITERS);
-		new_com = find_exe(args[0]);
-
-		if (execve(new_com, args, environ) == -1)
+		line = get_l();
+		if (line == NULL)
 		{
-			printf("Command not found\n");
-			free(command);
-			free(new_com);
-			while (*args)
-			{
-				free(*args);
-				args++;
-			}
-			free(args);
+			if (isatty(STDIN_FILENO))
+				write(STDOUT_FILENO, "\n", 1);
+			return (status);
 		}
+		index++;
+		cmd = tokensh(line);
+		if (!cmd)
+			continue;
+		status = exec(cmd, argv, index);
 	}
-	return (0);
 }

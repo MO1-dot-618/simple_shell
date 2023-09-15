@@ -1,4 +1,4 @@
-#include "main.h"
+#include "list.h"
 #include <stdlib.h>
 #include <stddef.h>
 /**
@@ -103,26 +103,23 @@ char *_strcat(char *dest, char *src)
 	return (dest);
 }
 /**
- * _strncpy - copies a string
+ * _strcpy - copies the string pointed to by src,
+ * including the terminating null byte, to the
+ * buffer pointed to by dest.
  * @dest: destination.
  * @src: source.
- * @n: amount of bytes from src.
  * Return: the pointer to dest.
  */
-
-char *_strncpy(char *dest, char *src, int n)
+char *_strcpy(char *dest, char *src)
 {
-	int j;
+	int count = 0;
 
-	for (j = 0; j < n && src[j] != '\0'; j++)
+	while (count >= 0)
 	{
-		dest[j] = src[j];
-	}
-
-	while (j < n)
-	{
-		dest[j] = '\0';
-		j++;
+		*(dest + count) = *(src + count);
+		if (*(src + count) == '\0')
+			break;
+		count++;
 	}
 	return (dest);
 }
