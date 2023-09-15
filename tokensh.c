@@ -29,6 +29,8 @@ char **tokensh(char *line)
     if (!argv)
     {
         free(line), line = NULL;
+	free(cmd), cmd = NULL;
+	free(token), token = NULL;
         return (NULL);
     }
     token = strtok(line, delim);
@@ -41,6 +43,8 @@ char **tokensh(char *line)
     }
     argv[i] = NULL;
     free(line), line = NULL;
+    free(cmd), cmd = NULL;
+    free(token), token = NULL;
     return (argv);
 }
 
