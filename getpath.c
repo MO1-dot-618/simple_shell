@@ -12,7 +12,7 @@ char *getsirat(char *command)
         if (command[i] == '/')
         {
             if (stat(command, &s) == 0) /*Path exists!*/
-                return (command);
+                return (_strdup(command));
 	    return (NULL);
         }
     }

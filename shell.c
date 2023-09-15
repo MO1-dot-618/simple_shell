@@ -22,6 +22,6 @@ int main (int argc, char **argv)
 		if (!cmd)
 			continue;
 		status = exec(cmd, argv, index);
-		fra(cmd);
+/*		fra(cmd);*/
 	}
 }
