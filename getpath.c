@@ -9,12 +9,8 @@ char *getsirat(char *command)
     /*Case 1: command already exists*/
     for (i = 0; command[i]; i++)
     {
-        if (command[i] == '/')
-        {
             if (stat(command, &s) == 0) /*Path exists!*/
                 return (strdup(command));
-	    return (NULL);
-        }
     }
     /*Case 2: User uses the command unset to delete the path*/
     path_environ = getenviron("PATH");
@@ -34,6 +30,7 @@ char *getsirat(char *command)
             _strcat(f_cmd, command);
             if (stat(f_cmd, &s) == 0)
             {
+		printf("%s\n", f_cmd);
                 free(path_environ);
                 return (f_cmd);
             }
