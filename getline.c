@@ -10,7 +10,7 @@ char *get_l (void)
     s = getline(&line, &n, stdin);
     if (s == -1)
     {
-        free(line); line = NULL;
+        free(line), line = NULL;
         return (NULL);
     }
     

@@ -9,6 +9,7 @@ char *getsirat(char *command)
     /*Case 1: command already exists*/
     for (i = 0; command[i]; i++)
     {
+
         if (command[i] == '/')
         {
             if (stat(command, &s) == 0) /*Path exists!*/
@@ -37,6 +38,7 @@ char *getsirat(char *command)
             _strcat(f_cmd, command);
             if (stat(f_cmd, &s) == 0)
             {
+
                 free(path_environ); path_environ = NULL;
                 return (f_cmd);
             }
@@ -62,7 +64,7 @@ char *getenviron(char *var)
        {
         value = strtok(NULL, "\n");
         value_cpy = _strdup(value);
-        free(temp);
+        free(temp), temp = NULL;
         return(value_cpy);
        }
        free(temp); temp = NULL;
