@@ -17,16 +17,26 @@ int exec(char **cmd, char **argv, int index)
     pid = fork();
     if (pid == 0)
     {
-        if (execve(cmd[0], cmd, environ) == -1)
+        if (execve(f_cmd, cmd, environ) == -1)
         {
             free(f_cmd), f_cmd = NULL;
-            free(cmd), cmd = NULL;
+	  /*  while (*cmd)
+	    {
+		    free(*cmd); cmd = NULL;
+		    cmd++;
+	    }
+            free(cmd), cmd = NULL;*/
         }
     }   else
     {
         waitpid(pid, &status, 0);
         free(f_cmd), f_cmd = NULL;
-        free(cmd), cmd = NULL;
+	/*while (*cmd)
+	{
+		free(*cmd); cmd = NULL;
+		cmd++;
+	}
+        free(cmd), cmd = NULL;*/
     }
     return (WEXITSTATUS(status));
 }

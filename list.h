@@ -21,6 +21,7 @@ int exec(char **cmd, char **argv, int index);
 char **tokensh(char *line);
 char *get_l(void);
 void c_perror(char *usrnm, int index, char *cmd);
+void fra(char ** arr);
 
 char *_strcpy(char *dest, char *src);
 char *int_to_a(int num);

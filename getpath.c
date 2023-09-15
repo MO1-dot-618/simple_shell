@@ -9,13 +9,21 @@ char *getsirat(char *command)
     /*Case 1: command already exists*/
     for (i = 0; command[i]; i++)
     {
-            if (stat(command, &s) == 0) /*Path exists!*/
-                return (strdup(command));
+	     if (command[i] == '/')
+	     {
+
+            	if (stat(command, &s) == 0) /*Path exists!*/
+                	return (command);
+	    return (NULL);
+        }
     }
     /*Case 2: User uses the command unset to delete the path*/
     path_environ = getenviron("PATH");
     if (!path_environ)
-        return (NULL);
+    {
+	    free(path_environ); path_environ = NULL;
+	    return (NULL);
+    }
     
     /*Case 3: Path must be handled*/
     list = strtok(path_environ, ":");
@@ -30,16 +38,16 @@ char *getsirat(char *command)
             _strcat(f_cmd, command);
             if (stat(f_cmd, &s) == 0)
             {
-		printf("%s\n", f_cmd);
-                free(path_environ);
+
+                free(path_environ); path_environ = NULL;
                 return (f_cmd);
             }
-            free(f_cmd);
+            free(f_cmd); f_cmd = NULL;
             list = strtok(NULL, ":");
         }
 
     }
-    free(path_environ);
+    free(path_environ); path_environ = NULL;
     return (NULL);
 
 }
@@ -59,7 +67,7 @@ char *getenviron(char *var)
         free(temp);
         return(value_cpy);
        }
-       free(temp);
+       free(temp); temp = NULL;
     }
     return (NULL);
 }
