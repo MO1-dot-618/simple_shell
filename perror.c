@@ -40,9 +40,9 @@ void c_perror(char *usrnm, int index, char *cmd)
     _indx = int_to_a(index);
 
     write(STDERR_FILENO, usrnm, _strlen(usrnm));
-    write(STDERR_FILENO, " :", 2);
+    write(STDERR_FILENO, ": ", 2);
     write(STDERR_FILENO, _indx, _strlen(_indx));
-    write(STDERR_FILENO, " :", 2);
+    write(STDERR_FILENO, ": ", 2);
     write(STDERR_FILENO, cmd, _strlen(cmd));
     write(STDERR_FILENO, ": not found\n", 12);
 

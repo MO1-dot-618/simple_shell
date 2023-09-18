@@ -22,13 +22,16 @@ char **tokensh(char *line);
 char *get_l(void);
 void c_perror(char *usrnm, int index, char *cmd);
 void fra(char ** arr);
+void myexit(int status);
 
 char *_strcpy(char *dest, char *src);
 char *int_to_a(int num);
+char *_strstr(char *haystack, char *needle);
 void rev_string(char *str, int len);
 char *_strcat(char *dest, char *src);
 int _strlen(char *s);
 int _strcmp(char *s1, char *s2);
+int _atoi(char *s);
 char *_strdup(char *str);
 
 extern char **environ;
