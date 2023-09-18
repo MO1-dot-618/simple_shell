@@ -4,25 +4,25 @@ char *getsirat(char *command)
 {
     char *path_environ, *f_cmd, *list;
     struct stat s;
-    int i;
 
     /*Case 1: command already exists*/
-    for (i = 0; command[i]; i++)
-    {
-
-        if (command[i] == '/')
-        {
-            if (stat(command, &s) == 0) /*Path exists!*/
+    if (stat(command, &s) == 0 && s.st_mode & S_IXUSR)
                 return (_strdup(command));
-	    return (NULL);
-        }
-    }
+
     /*Case 2: User uses the command unset to delete the path*/
     path_environ = getenviron("PATH");
     if (!path_environ)
     {
 	    free(path_environ); path_environ = NULL;
-	    return (NULL);
+	    if (_strcmp(command, "env") == 0)
+	    {
+		f_cmd = _strdup("/usr/bin/env");
+		return (f_cmd);
+	    }
+	    else
+	    {
+	    	return (NULL);
+	    }
     }
     
     /*Case 3: Path must be handled*/
@@ -36,7 +36,7 @@ char *getsirat(char *command)
             _strcpy(f_cmd, list);
             _strcat(f_cmd, "/");
             _strcat(f_cmd, command);
-            if (stat(f_cmd, &s) == 0)
+            if (stat(f_cmd, &s) == 0 && (s.st_mode & S_IXUSR))
             {
 
                 free(path_environ); path_environ = NULL;
