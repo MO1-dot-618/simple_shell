@@ -1,7 +1,7 @@
 #include "list.h"
 
 /**
-  * tokensh - tokenezation
+  * tokensh - tokenization
   * @line: string to tokenize
   * Return: return an array of strings
   */
