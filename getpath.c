@@ -3,7 +3,6 @@
 char *getsirat(char *command)
 {
     char *path_environ, *f_cmd, *list;
-    int i;
     struct stat s;
 
     /*Case 1: command already exists*/
