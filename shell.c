@@ -1,6 +1,12 @@
 #include "list.h"
 
-int main (int argc, char **argv)
+/**
+  * main - main fucntion of the simple shell
+  * @argc: int
+  * @argv: char**
+  * Return: 0 on ssuccess
+  */
+int main(int argc, char **argv)
 {
 	char *line = NULL;
 	char **cmd = NULL;

@@ -1,6 +1,10 @@
 #include "list.h"
 
-void fra(char ** arr)
+/**
+  * fra - it frees tha slaves (memory)
+  * @arr: array of strings to be freed
+  */
+void fra(char **arr)
 {
 	int i;
 
