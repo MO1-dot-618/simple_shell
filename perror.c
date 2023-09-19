@@ -11,7 +11,8 @@ char *int_to_a(int num) {
             buffer[i] = (num % 10) + '0';
             num /= 10;
             i++;
-        }   
+        }
+    buffer[i] = '\0';
     rev_string(buffer, i);
 
     return (_strdup(buffer));

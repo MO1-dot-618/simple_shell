@@ -22,7 +22,10 @@ char **tokensh(char *line);
 char *get_l(void);
 void c_perror(char *usrnm, int index, char *cmd);
 void fra(char ** arr);
-void myexit(int status);
+void my_p_env(char **cmd, int *status);
+void myexit(char **cmd, char **argv, int *status, int index);
+void hand_built(char **cmd, char **argv, int *status, int index);
+int get_built (char *cmd);
 
 char *_strcpy(char *dest, char *src);
 char *int_to_a(int num);
@@ -33,6 +36,7 @@ int _strlen(char *s);
 int _strcmp(char *s1, char *s2);
 int _atoi(char *s);
 char *_strdup(char *str);
+int is_pos_string(char *str);
 
 extern char **environ;
 #endif
